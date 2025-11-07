@@ -65,7 +65,7 @@ const FeaturesSection = () => {
     </motion.div>
   );
 };
-// 1:03:44
+
 const FeatureCard = ({
   imageSrc,
   title,
