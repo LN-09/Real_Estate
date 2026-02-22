@@ -1,18 +1,21 @@
 "use client";
 
 import { NAVBAR_HEIGHT } from "@/lib/constants";
-import { cleanParams } from "@/lib/utils";
-import { setFilters } from "@/state";
 import { useAppDispatch, useAppSelector } from "@/state/redux";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
-import FilterBar from "./FilterBar";
+import FiltersBar from "./FilterBar";
+import FiltersFull from "./FiltersFull";
+import { cleanParams } from "@/lib/utils";
+import { setFilters } from "@/state";
+import Map from "./Map";
+import Listings from "./Listing";
 
 const SearchPage = () => {
   const searchParams = useSearchParams();
-  const dispath = useAppDispatch();
-  const isFillersfullOpen = useAppSelector(
-    (state) => state.global.isFiltersFullOpen
+  const dispatch = useAppDispatch();
+  const isFiltersFullOpen = useAppSelector(
+    (state) => state.global.isFiltersFullOpen,
   );
 
   useEffect(() => {
@@ -25,38 +28,37 @@ const SearchPage = () => {
         } else {
           acc[key] = value === "any" ? null : value;
         }
+
         return acc;
       },
-      {}
+      {},
     );
+
     const cleanedFilters = cleanParams(initialFilters);
-    dispath(setFilters(cleanedFilters));
-  }, []);
+    dispatch(setFilters(cleanedFilters));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div
-      className="w-full mx-auto flex flex-col"
+      className="w-full mx-auto px-5 flex flex-col"
       style={{
-        height: `calc(100vh- ${NAVBAR_HEIGHT}px)`,
+        height: `calc(100vh - ${NAVBAR_HEIGHT}px)`,
       }}
     >
-      <FilterBar />
+      <FiltersBar />
       <div className="flex justify-between flex-1 overflow-hidden gap-3 mb-5">
         <div
-          className={`h-full overflow-auto translate-all duration-300 ease-in-out &{
-            isFilterFullOpen
-            ? "w-3/12 opacity-100 visible"
-            : "w-0 opacity-0 invisible"
-            }`}
+          className={`h-full overflow-auto transition-all duration-300 ease-in-out ${
+            isFiltersFullOpen
+              ? "w-3/12 opacity-100 visible"
+              : "w-0 opacity-0 invisible"
+          }`}
         >
-          {/* <FiltersFull/> */}
-          FiltersFull
+          <FiltersFull />
         </div>
-        {/* <Map/> */}
-        Map
-        <div className="basic-4/12 overflow-y-auto">
-          {/* <Listing/> */}
-          Listing
+        <Map />
+        <div className="basis-4/12 overflow-y-auto">
+          <Listings />
         </div>
       </div>
     </div>
