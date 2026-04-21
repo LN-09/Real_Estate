@@ -10,7 +10,7 @@ import {
   useAuthenticator,
   View,
 } from "@aws-amplify/ui-react";
-import "@aws-amplify/ui-react/styles.css";
+import "@aws-amplify/ui-react/";
 import { useRouter, usePathname } from "next/navigation";
 
 // https://docs.amplify.aws/gen1/javascript/tools/libraries/configure-categories/
